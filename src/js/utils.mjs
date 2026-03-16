@@ -31,7 +31,7 @@ export function getParam(param) {
   return product;
 };
 
-
+// render a temple with a given list of products
 export function renderListWithTemplate(templateFn, parentElement, list, position = "afterbegin", clear = false) {
     if (clear) {
       parentElement.innerHTML = "";
