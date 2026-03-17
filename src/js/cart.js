@@ -1,12 +1,21 @@
 import { getLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+import ShoppingCart from "./ShoppingCart.mjs";
 
-function renderCartContents() {
+const shoppingCart = new ShoppingCart(
+  document.querySelector(".product-list"),
+  getLocalStorage("so-cart"),
+);
+
+loadHeaderFooter();
+shoppingCart.init();
+/* function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
-}
+} */
 
-function cartItemTemplate(item) {
+/* function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
@@ -23,6 +32,6 @@ function cartItemTemplate(item) {
 </li>`;
 
   return newItem;
-}
+}  */
 
-renderCartContents();
+// renderCartContents();
