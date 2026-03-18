@@ -241,6 +241,30 @@ button {
   grid-column: 3;
 }
 
+.category {
+  margin: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.category img {
+  width: 110px;
+  height: 80px;
+}
+
+.category a {
+  text-decoration: none;
+  color: #303030;
+}
+
+.cat-item {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  align-items: center;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
