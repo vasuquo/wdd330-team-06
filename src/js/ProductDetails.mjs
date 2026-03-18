@@ -28,7 +28,7 @@ export default class ProductDetails {
         const [brandName, name, img, price, color, descrp, cartBtn] = clone.querySelectorAll("h3, h2, img, p, p, p, button");        
         brandName.textContent = this.product.Brand.Name;
         name.textContent = this.product.NameWithoutBrand;
-        img.src = this.product.Image;
+        img.src = this.product.Images.PrimaryLarge;
         img.alt = this.product.NameWithoutBrand;
         price.textContent = `$${this.product.ListPrice}`;
         color.textContent = this.product.Colors[0].ColorName;
