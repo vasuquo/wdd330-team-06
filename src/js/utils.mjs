@@ -39,6 +39,7 @@ export function renderListWithTemplate(templateFn, parentElement, list, position
     const htmlStrings = list.map(templateFn);
     parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
+
 // HTML rendering with templates
 export function renderWithTemplate(template, parentElement, data, callback) {
     parentElement.innerHTML = template;  
@@ -61,5 +62,11 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
 }
+
+//Currency formater
+export function formatCurrency(num) {
+    return Number(num.toFixed(2)).toLocaleString();
+}
+
 
 
