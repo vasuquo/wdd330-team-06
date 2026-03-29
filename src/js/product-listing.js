@@ -1,4 +1,4 @@
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 
@@ -11,6 +11,6 @@ const catUpper = category.charAt(0).toUpperCase() + category.slice(1);
 
 document.getElementById("top").innerHTML = `Top Products: ${catUpper}`;
 
-const dataSource = new ProductData(category);
+const dataSource = new ExternalServices(category);
 const prouctList = new ProductList(category, dataSource, ulElement);
 prouctList.init();
