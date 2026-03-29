@@ -1,5 +1,26 @@
 import { formatCurrency, getLocalStorage } from "./utils.mjs";
 
+function packageItems(items) {
+  const simpleItems = items.map((item) => {
+    return {id: item.id, name: item.name, price: item.FinalPrice, quantity: 1};
+  });
+
+  return simpleItems;        
+}
+
+// takes a form element and returns an object where the key is the "name" of the form input.
+function formDataToJSON(formElement) {
+  const formData = new FormData(formElement),
+    convertedJSON = {};
+
+  formData.forEach(function (value, key) {
+    convertedJSON[key] = value;
+  });
+
+  return convertedJSON;
+}
+
+
 export default class CheckoutProcess {
   constructor(key, outputSelector) {
     this.key = key;
@@ -14,13 +35,19 @@ export default class CheckoutProcess {
   init() {
     this.list = getLocalStorage(this.key);
     this.calculateItemSummary();
+
     document.getElementById("zip").addEventListener("change", 
         this.calculateOrderTotal.bind(this));
+
+    document.getElementById("submit-order").addEventListener("click", (event) => {
+      event.preventDefault();
+      this.checkout();
+    });
   }
 
   calculateItemSummary() {
      this.calculateItemSubTotal();
-//     this.calculateOrderTotal();
+
   }
 
   calculateItemSubTotal() {
@@ -52,5 +79,40 @@ export default class CheckoutProcess {
 
     const order = document.querySelector(`${this.outputSelector} #order`);
     order.innerText = `Order Total:  $${formatCurrency(this.orderTotal)}`;
+  }
+
+  async checkout() {
+     const orderDetails = formDataToJSON(document.getElementById("orderForm"));
+     const orderDate = new Date().toDateString();
+     orderDetails.orderDate = orderDate;
+     orderDetails.orderTotal = this.orderTotal;
+     orderDetails.tax = this.tax;
+     orderDetails.shipping = this.shipping;
+     orderDetails.items = packageItems(this.list);
+
+     const checkoutUrl = "https://wdd330-backend.onrender.com:3000/checkout";
+
+     const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderDetails)
+     }
+
+     try {
+
+      const response = await fetch(checkoutUrl, options);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json(); 
+      console.log('Success:', result);
+      
+     } catch (error) {
+        console.error('Error:', error);      
+     }
   }
 }
