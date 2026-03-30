@@ -1,4 +1,4 @@
-import { formatCurrency, getLocalStorage } from "./utils.mjs";
+import { formatCurrency, getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function packageItems(items) {
   const simpleItems = items.map((item) => {
@@ -41,7 +41,12 @@ export default class CheckoutProcess {
 
     document.getElementById("submit-order").addEventListener("click", (event) => {
       event.preventDefault();
-      this.checkout();
+      const orderForm = document.forms[0];
+      const formStatus = orderForm.checkValidity();
+      orderForm.reportValidity();
+      if (formStatus) {
+          this.checkout();
+      }      
     });
   }
 
@@ -109,7 +114,10 @@ export default class CheckoutProcess {
       }
 
       const result = await response.json(); 
-      console.log('Success:', result);
+      setLocalStorage(this.key, []);
+      location.assign("../checkout/success.html");
+      
+//      console.log('Success:', result);
       
      } catch (error) {
         console.error('Error:', error);      
